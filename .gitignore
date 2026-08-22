@@ -1,0 +1,144 @@
+# =========================================================
+# WeatherPro - Git Ignore
+# Next.js + TypeScript + Vercel
+# =========================================================
+
+
+# -------------------------
+# Dependencies
+# -------------------------
+node_modules/
+.pnp/
+.pnp.js
+
+
+# -------------------------
+# Next.js
+# -------------------------
+.next/
+out/
+
+
+# -------------------------
+# Production builds
+# -------------------------
+build/
+dist/
+
+
+# -------------------------
+# Vercel
+# -------------------------
+.vercel/
+
+
+# -------------------------
+# Environment Variables
+# NEVER commit credentials / local environment files
+# -------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Keep an example environment file in Git
+!.env.example
+
+
+# -------------------------
+# Logs
+# -------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+# -------------------------
+# Testing / Coverage
+# -------------------------
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+
+# -------------------------
+# TypeScript
+# -------------------------
+*.tsbuildinfo
+next-env.d.ts
+
+
+# -------------------------
+# Cache
+# -------------------------
+.cache/
+.eslintcache
+*.cache
+
+
+# -------------------------
+# Temporary Files
+# -------------------------
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+
+
+# -------------------------
+# IDE / Editors
+# -------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+.idea/
+*.iml
+
+
+# -------------------------
+# Windows
+# -------------------------
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+
+# -------------------------
+# macOS
+# -------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+
+# -------------------------
+# Linux
+# -------------------------
+*~
+
+
+# -------------------------
+# Local certificates / secrets
+# -------------------------
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+
+# -------------------------
+# Miscellaneous
+# -------------------------
+.vercelignore

@@ -1,0 +1,382 @@
+@import "tailwindcss";
+
+html {
+  background: #020617;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #020617;
+  color: white;
+}
+
+
+/* Polished hourly forecast scroller */
+.hourly-scroll-shell {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+}
+
+.hourly-scroll {
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 42px 14px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 42px;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.78) rgba(15, 23, 42, 0.5);
+}
+
+.hourly-scroll:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.65);
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+.hourly-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.hourly-scroll::-webkit-scrollbar-track {
+  margin-inline: 42px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.62);
+}
+
+.hourly-scroll::-webkit-scrollbar-thumb {
+  min-width: 82px;
+  border: 2px solid rgba(15, 23, 42, 0.62);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(14, 165, 233, 0.82),
+    rgba(59, 130, 246, 0.98)
+  );
+}
+
+.hourly-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(56, 189, 248, 1),
+    rgba(96, 165, 250, 1)
+  );
+}
+
+.hourly-scroll::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.hourly-card {
+  scroll-snap-align: start;
+  min-height: 132px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hourly-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.45);
+  background: rgba(15, 23, 42, 0.86);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.24);
+}
+
+.hourly-card-current {
+  border-color: rgba(96, 165, 250, 0.48);
+  background: rgba(37, 99, 235, 0.09);
+  box-shadow:
+    inset 0 0 0 1px rgba(96, 165, 250, 0.04),
+    0 10px 30px rgba(37, 99, 235, 0.06);
+}
+
+.hourly-scroll-fade {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  bottom: 14px;
+  z-index: 2;
+  width: 44px;
+}
+
+.hourly-scroll-fade-left {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.98),
+    rgba(15, 23, 42, 0.72) 42%,
+    transparent
+  );
+}
+
+.hourly-scroll-fade-right {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    rgba(15, 23, 42, 0.98),
+    rgba(15, 23, 42, 0.72) 42%,
+    transparent
+  );
+}
+
+.hourly-scroll-button {
+  position: absolute;
+  top: 52%;
+  z-index: 4;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  transform: translateY(-50%);
+  border: 1px solid rgba(71, 85, 105, 0.72);
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.9);
+  color: rgb(203, 213, 225);
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.3);
+  backdrop-filter: blur(10px);
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.hourly-scroll-button:hover {
+  border-color: rgba(96, 165, 250, 0.7);
+  background: rgba(30, 64, 175, 0.78);
+  color: white;
+  transform: translateY(-50%) scale(1.06);
+}
+
+.hourly-scroll-button:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.8);
+  outline-offset: 2px;
+}
+
+.hourly-scroll-button-left { left: 5px; }
+.hourly-scroll-button-right { right: 5px; }
+
+@media (max-width: 640px) {
+  .hourly-scroll {
+    padding: 4px 2px 12px;
+    scroll-padding-inline: 2px;
+  }
+
+  .hourly-scroll::-webkit-scrollbar-track {
+    margin-inline: 2px;
+  }
+
+  .hourly-scroll-button,
+  .hourly-scroll-fade {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hourly-scroll { scroll-behavior: auto; }
+  .hourly-card,
+  .hourly-scroll-button { transition: none; }
+}
+
+/* =========================================================
+   WEATHER HERO — COOL BLUE CITY GRADIENT
+   ========================================================= */
+
+.weather-hero {
+  border: 1px solid rgba(96, 165, 250, 0.34);
+  background:
+    radial-gradient(circle at 88% 24%, rgba(56, 189, 248, 0.16), transparent 25%),
+    radial-gradient(circle at 64% 105%, rgba(6, 182, 212, 0.18), transparent 38%),
+    linear-gradient(118deg, #07132f 0%, #0b2250 45%, #0a3155 74%, #07394f 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 70px rgba(2, 6, 23, 0.35);
+}
+
+.weather-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(2, 6, 23, 0.14), transparent 48%),
+    linear-gradient(180deg, transparent 55%, rgba(2, 18, 40, 0.18));
+}
+
+.weather-hero-glow {
+  position: absolute;
+  z-index: 1;
+  width: 360px;
+  height: 260px;
+  right: -60px;
+  top: -80px;
+  pointer-events: none;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.13);
+  filter: blur(70px);
+}
+
+.weather-hero-temperature {
+  text-shadow: 0 5px 24px rgba(2, 6, 23, 0.34);
+}
+
+.weather-hero-condition {
+  color: rgb(125, 211, 252);
+  text-shadow: 0 0 22px rgba(56, 189, 248, 0.18);
+}
+
+.weather-hero-icon {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(4, 16, 43, 0.48);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 34px rgba(2, 6, 23, 0.22);
+  backdrop-filter: blur(14px);
+}
+
+.weather-hero-pill {
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  background: rgba(2, 12, 35, 0.43);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(10px);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+button.weather-hero-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(125, 211, 252, 0.36);
+  background: rgba(7, 33, 70, 0.72);
+}
+
+/* Abstract skyline/bridge detail: CSS only, intentionally subtle. */
+.weather-hero-horizon {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 25px;
+  width: 55%;
+  height: 92px;
+  opacity: 0.32;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000);
+}
+
+.weather-building {
+  position: absolute;
+  bottom: 18px;
+  display: block;
+  border-top: 1px solid rgba(186, 230, 253, 0.26);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(250, 204, 21, 0.28) 0 2px,
+      transparent 2px 9px
+    ),
+    linear-gradient(180deg, rgba(14, 58, 93, 0.78), rgba(2, 22, 43, 0.94));
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.08);
+}
+
+.weather-building-1 { left: 8%; width: 28px; height: 44px; }
+.weather-building-2 { left: 16%; width: 38px; height: 61px; }
+.weather-building-3 { left: 27%; width: 31px; height: 49px; }
+.weather-building-4 { left: 36%; width: 44px; height: 72px; }
+.weather-building-5 { left: 48%; width: 34px; height: 55px; }
+
+.weather-bridge-deck {
+  position: absolute;
+  right: -2%;
+  bottom: 17px;
+  width: 54%;
+  height: 4px;
+  transform: rotate(-2deg);
+  transform-origin: right center;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(125, 211, 252, 0.2), rgba(250, 204, 21, 0.48));
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.12);
+}
+
+.weather-bridge-tower {
+  position: absolute;
+  bottom: 19px;
+  width: 2px;
+  background: rgba(186, 230, 253, 0.42);
+  box-shadow: 0 0 8px rgba(125, 211, 252, 0.18);
+}
+
+.weather-bridge-tower::before,
+.weather-bridge-tower::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  width: 70px;
+  height: 1px;
+  transform-origin: left center;
+  background: rgba(186, 230, 253, 0.2);
+}
+
+.weather-bridge-tower::before { transform: rotate(31deg); }
+.weather-bridge-tower::after { transform: rotate(-31deg); }
+
+.weather-bridge-tower-1 { right: 34%; height: 61px; }
+.weather-bridge-tower-2 { right: 22%; height: 69px; }
+.weather-bridge-tower-3 { right: 10%; height: 77px; }
+
+.weather-hero-water {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  width: 62%;
+  height: 46px;
+  pointer-events: none;
+  opacity: 0.34;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 17px,
+      rgba(125, 211, 252, 0.12) 17px 19px,
+      transparent 19px 33px
+    ),
+    linear-gradient(180deg, rgba(14, 116, 144, 0.2), rgba(8, 47, 73, 0.48));
+  mask-image: linear-gradient(90deg, transparent, #000 25%, #000);
+}
+
+@media (max-width: 640px) {
+  .weather-hero-horizon {
+    width: 74%;
+    opacity: 0.22;
+  }
+
+  .weather-hero-water {
+    width: 78%;
+  }
+
+  .weather-hero-glow {
+    width: 220px;
+    height: 180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.weather-hero-pill {
+    transition: none;
+  }
+}
+
